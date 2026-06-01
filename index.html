@@ -4,14 +4,26 @@
     等待平台消息...
   </div>
   <input id="val" placeholder="输入任意内容" />
-  <button onclick="
-    window.parent.postMessage({ type: 'agent_input', value: document.getElementById('val').value }, '*')
-  ">Submit</button>
+  <button id="btn" disabled>Submit</button>
 
   <script>
+    var receivedToken = null;
+
     window.addEventListener('message', function(e) {
       document.getElementById('log').innerText = JSON.stringify(e.data);
+      if (e.data && e.data.token) {
+        receivedToken = e.data.token;
+        document.getElementById('btn').disabled = false;
+      }
     });
+
+    document.getElementById('btn').onclick = function() {
+      var val = document.getElementById('val').value;
+      window.parent.postMessage({
+        token: receivedToken,
+        value: val
+      }, '*');
+    };
   </script>
 </body>
 </html>
