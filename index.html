@@ -1,8 +1,17 @@
 <html>
 <body>
+  <div id="log" style="background:#f0f0f0;padding:10px;margin-bottom:10px;min-height:50px">
+    等待平台消息...
+  </div>
   <input id="val" placeholder="输入任意内容" />
   <button onclick="
     window.parent.postMessage({ type: 'agent_input', value: document.getElementById('val').value }, '*')
   ">Submit</button>
+
+  <script>
+    window.addEventListener('message', function(e) {
+      document.getElementById('log').innerText = JSON.stringify(e.data);
+    });
+  </script>
 </body>
 </html>
