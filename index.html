@@ -5,6 +5,7 @@
   </div>
   <input id="val" placeholder="输入任意内容" />
   <button id="btn" disabled>Submit</button>
+  <div id="sent" style="margin-top:10px;color:green"></div>
 
   <script>
     var receivedToken = null;
@@ -19,10 +20,9 @@
 
     document.getElementById('btn').onclick = function() {
       var val = document.getElementById('val').value;
-      window.parent.postMessage({
-        token: receivedToken,
-        value: val
-      }, '*');
+      var msg = { token: receivedToken, value: val };
+      window.parent.postMessage(msg, '*');
+      document.getElementById('sent').innerText = '已发送：' + JSON.stringify(msg);
     };
   </script>
 </body>
